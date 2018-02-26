@@ -3,8 +3,8 @@ module Data.AddressBook where
 import Prelude
 
 import Control.Plus (empty)
-import Data.List (List(..), filter, head)
-import Data.Maybe (Maybe)
+import Data.List (List(..), filter, head, nubBy, null)
+import Data.Maybe (Maybe, isNothing)
 
 type Entry = 
     { firstName :: String
@@ -33,3 +33,19 @@ insertEntry = Cons
 
 emptyBook :: AddressBook
 emptyBook = empty
+
+findEntry :: String -> String -> AddressBook -> Maybe Entry
+findEntry firstName lastName book = head $ filter filterEntry book
+    where
+        filterEntry :: Entry -> Boolean
+        filterEntry entry = firstName == entry.firstName && lastName == entry.lastName
+
+containsName :: String -> String -> AddressBook -> Boolean
+containsName firstName lastName =
+   not <<< isNothing <<< findEntry firstName lastName
+
+removeDuplicates :: AddressBook -> AddressBook
+removeDuplicates = nubBy sameAddress
+
+sameAddress :: Entry -> Entry -> Boolean
+sameAddress e1 e2 = e1.firstName == e2.firstName && e1.lastName == e2.lastName
