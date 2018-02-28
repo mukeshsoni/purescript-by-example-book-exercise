@@ -80,6 +80,21 @@ pythagoreanTriples n = do
   guard $ (i * i) + (j * j) == k * k
   pure [i, j, k]
 
+allTrue :: Array Boolean -> Boolean
+allTrue l = foldl (\acc item -> acc && item) true l
+
+-- Q. Characterize those arrays xs for which the function foldl (==) false xs returns true
+-- A. Arrays whose all elements are false
+
+count :: forall a. (a -> Boolean) -> Array a -> Int -> Int
+count _ [] n = n
+count p xs n = if p (unsafePartial head xs)
+                then count p (unsafePartial tail xs) (n + 1)
+                else count p (unsafePartial tail xs) n
+
+reverseWithFoldl :: forall a. Array a -> Array a
+reverseWithFoldl = foldl (\acc a -> [a] <> acc) []
+
 main :: forall e. Eff (console :: CONSOLE | e) Unit
 main = do
   log "Hello sailor!"
@@ -97,3 +112,9 @@ main = do
   logShow $ map isPrime (1..20)
   logShow $ cartesian (1..3) (1..4)
   logShow $ pythagoreanTriples 20
+  logShow $ allTrue [true, true, true]
+  logShow $ allTrue [true, true, false, true]
+  logShow $ count isEven (1..10) 0
+  logShow $ count isEven (1..10) 0 == countEven (1..10)
+  logShow $ reverseWithFoldl [true, true, false, true]
+  logShow $ reverseWithFoldl [1, 2, 3, 4]
