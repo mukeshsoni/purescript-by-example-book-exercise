@@ -33,7 +33,7 @@ root =
                         [ File "/home/user/code/js/test.js" 40000
                         ]
                     , Directory "/home/user/code/haskell"
-                        [ File "/home/user/code/haskell/test.hs" 5000
+                        [ File "/home/user/code/haskell/test.hs" 500
                         ]
                     ]
                 ]
