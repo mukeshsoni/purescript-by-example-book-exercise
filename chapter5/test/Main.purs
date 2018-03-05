@@ -26,5 +26,7 @@ main = do
     logShow (extractText text)
     logShow (extractText circle)
     logShow (map showShape picture)
+    logShow picture -- works because we defined show function from Show typeclass for Shape
+    logShow (map show picture)
     logShow (area circle)
     logShow (area rectangle)

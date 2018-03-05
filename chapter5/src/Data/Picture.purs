@@ -29,6 +29,9 @@ showShape (Line p1 p2) =
 showShape (Text p t) =
     "Text [location: " <> showPoint p <> ", text: " <> show t <> "]"
 
+instance showTheShape :: Show Shape where
+    show = showShape
+
 type Picture = Array Shape
 
 data Bounds = Bounds
@@ -121,7 +124,7 @@ transformShape (Rectangle _ w h) =
 transformShape s = s
 
 extractText :: Shape -> Maybe String
-extractText (Text _ t) = Just (show t)
+extractText (Text _ t) = Just t
 extractText _ = Nothing
 
 area :: Shape -> Number
