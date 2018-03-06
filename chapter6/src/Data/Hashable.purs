@@ -1,9 +1,9 @@
 module Data.Hashable where
   
 import Prelude
-import Data.Function
-import Data.Char
-import Data.String
+import Data.Function (on)
+import Data.Char (toCharCode)
+import Data.String (toCharArray)
 import Data.Foldable (foldl)
 import Data.Array (nubBy, length)
 
@@ -51,3 +51,12 @@ hasDuplicates :: forall a. Hashable a => Array a -> Boolean
 hasDuplicates arr = (length $ nubBy areEqual arr) /= length arr
     where
         areEqual a b = hash a == hash b && a == b
+
+-- 3. (Medium) Write a Hashable instance for the following newtype which satisfies the type class law:
+newtype Hour = Hour Int
+
+instance eqHour :: Eq Hour where
+    eq (Hour n) (Hour m) = mod n 12 == mod m 12
+
+instance hashHour :: Hashable Hour where
+    hash (Hour n) = hash $ n `mod` 12
