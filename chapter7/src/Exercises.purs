@@ -15,6 +15,10 @@ liftedMinus = lift2 (-)
 liftedMul = lift2 (*)
 liftedDiv = lift2 (/)
 
+combineMaybes :: forall a f. Applicative f => Maybe (f a) -> f (Maybe a)
+combineMaybes Nothing = pure Nothing
+combineMaybes (Just x) = map Just x
+
 main :: forall e. Eff (console :: CONSOLE | e) Unit
 main = do
   logShow liftedAddress
